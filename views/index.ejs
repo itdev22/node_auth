@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>
+    <%= title %>
+  </title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<h1>
+  <%= title %>
+</h1>
+<p>Welcome to <%= title %>
+</p>
+
+<form id="form">
+  <input type="text" name="" id="input">
+  <button type="submit">submit</button>
+</form>
+
+<ul id="socketmsg">
+  <li>JavaScript</li>
+  <li>TypeScript</li>
+  <li>HTML</li>
+  <li>CSS</li>
+</ul>
+
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+<script>
+  var socket = io();
+
+  var form = document.getElementById('form');
+  var input = document.getElementById('input');
+  var socketmsg = document.getElementById('socketmsg');
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (input.value) {
+      socket.emit('chat message', input.value);
+      input.value = '';
+    }
+  });
+
+  $('#socketmsg').empty();
+  socket.on('chat message', msg => {
+    let arr = msg.length;
+    for (let index = 0; index < arr; index++) {
+      var listViewItem = document.createElement('li');
+      listViewItem.appendChild(document.createTextNode(msg[index].pesan));
+      // listViewItem.appendChild(document.createElement("li"));
+      // listViewItem.appendChild(document.createElement("li") + document.createTextNode(msg[index].pesan));
+      $('#socketmsg').append(listViewItem);
+    }
+
+
+
+
+
+  })
+</script>
+
+</html>
