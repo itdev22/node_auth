@@ -18,6 +18,10 @@ io.on("connection", (socket) => {
                     pesan: socket.handshake.headers['user-agent'],
                     ip: socket.request.connection.remoteAddress,
                 },
+                {
+                    pesan: socket.request.connection.remoteAddress,
+                    ip: socket.request.connection.remoteAddress,
+                },
             ]
 
         io.emit('chat message', data);
