@@ -8,6 +8,8 @@ require('dotenv').config();
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var productsRouter = require('./routes/product');
+var transactionsRouter = require('./routes/transaction');
 
 var app = express();
 // const { MONGO_URI } = process.env;
@@ -24,6 +26,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/products', productsRouter);
+app.use('/transactions', transactionsRouter);
 
 
 // catch 404 and forward to error handler

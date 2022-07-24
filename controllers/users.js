@@ -1,6 +1,62 @@
 const User = require('../model/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const axios = require('axios');
+const { response } = require('express');
+const apiresponse = require('./apirespose');
+
+exports.User_getapi = async (req, res) => {
+    // res.json('ok')
+    // axios.get('https://imdb-api.com/API/Search/k_12345678/lost%202004')
+    //     .then(function (response) {
+    //         console.log(response.data)
+    //         res.json(response.data)
+    //     })
+    const title = req.body.title;
+    // const api = await axios({
+    //     method: 'get',
+    //     url: 'https://imdb-api.com/API/Search/k_12345678/' + title
+    // })
+    //     .then(function (response) { return response.data })
+    //     .catch(function (error) {
+    //         return error
+    //     })
+    const ferdy = await axios({
+        method: 'get',
+        url: 'http://192.168.18.71/latihan_laravel/public/post',
+    })
+        .then(function (response) { return response.data })
+        .catch(function (error) {
+            return error
+        })
+    // .then(function (response, next) {
+    //     console.log(response.data);
+    //     data.dataresponse = response.data;
+    // })
+    var data = {};
+    // data.api = api;
+    data.ferdy = ferdy;
+    data.status = "success";
+    res.json(apiresponse.response(ferdy, 'sucess'));
+}
+
+exports.User_postuser = async (req, res) => {
+    // Send a POST request
+    const title = req.body.title
+    const content = req.body.content
+    const status = req.body.status
+    const data = await axios({
+        method: 'post',
+        url: 'http://192.168.18.71/latihan_laravel/public/post',
+        data: {
+            title: title,
+            content: content,
+            status: status,
+        }
+    }).then((response) => { return response.data }).catch((err) => { return err });
+
+    res.json(apiresponse.response(data, 'success api'))
+}
 
 exports.User_login = async (req, res) => {
 
